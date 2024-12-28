@@ -1,5 +1,5 @@
 import { XMLBuilder } from "fast-xml-parser";
-import { existsSync, mkdirSync, writeFileSync } from "fs-extra";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 const data = {
 	message: "Hello, World!"
