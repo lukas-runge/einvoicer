@@ -1,0 +1,8 @@
+{
+  "name": "einvoicer",
+  "version": "0.0.1",
+  "description": "An open source typescript library for creating invoices in xml format.",
+  "repository": "git@github.com:TheMoreYouCode/einvoicer.git",
+  "author": "Lukas Runge <login@lukasrunge.de>",
+  "license": "MIT"
+}
