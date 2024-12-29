@@ -131,3 +131,6 @@ dist
 
 # ignore build dir
 /build
+
+# ignore local cache
+/cache
