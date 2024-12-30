@@ -1,0 +1,147 @@
+{
+	"ExchangedDocumentContext": {
+		"BusinessProcessSpecifiedDocumentContextParameter": [
+			{ "ID": { "content": "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0" } }
+		],
+		"GuidelineSpecifiedDocumentContextParameter": [
+			{ "ID": { "content": "urn:cen.eu:en16931:2017" } }
+		]
+	},
+	"ExchangedDocument": {
+		"ID": { "content": "R-2024-12-0042" },
+		"TypeCode": { "content": "380" },
+		"IssueDateTime": { "DateTimeString": { "content": "20241212", "format": "102" } },
+		"IncludedNote": [
+			{ "Content": [{ "content": "Rechnung" }], "SubjectCode": { "content": "AFM" } },
+			{
+				"Content": [
+					{
+						"content": "Wie abgesprochen, stelle ich Ihnen hiermit die folgenden Positionen in Rechnung."
+					}
+				],
+				"SubjectCode": { "content": "AAI" }
+			},
+			{
+				"Content": [{ "content": "Vielen Dank für Ihren Auftrag." }],
+				"SubjectCode": { "content": "SUR" }
+			}
+		]
+	},
+	"SupplyChainTradeTransaction": {
+		"IncludedSupplyChainTradeLineItem": [
+			{
+				"AssociatedDocumentLineDocument": { "LineID": { "content": "1" } },
+				"SpecifiedTradeProduct": {
+					"Name": [{ "content": "Support, Fehlerbehebung und Weiterentwicklung" }]
+				},
+				"SpecifiedLineTradeAgreement": {
+					"NetPriceProductTradePrice": {
+						"ChargeAmount": [{ "content": 150 }],
+						"BasisQuantity": { "unitCode": "HUR", "content": 1 }
+					}
+				},
+				"SpecifiedLineTradeDelivery": { "BilledQuantity": { "unitCode": "HUR", "content": 10 } },
+				"SpecifiedLineTradeSettlement": {
+					"ApplicableTradeTax": [
+						{
+							"TypeCode": { "content": "VAT" },
+							"CategoryCode": { "content": "S" },
+							"RateApplicablePercent": { "content": 19 }
+						}
+					],
+					"SpecifiedTradeSettlementLineMonetarySummation": {
+						"LineTotalAmount": [{ "content": 1500 }]
+					}
+				}
+			}
+		],
+		"ApplicableHeaderTradeAgreement": {
+			"SellerTradeParty": {
+				"ID": [{ "content": "" }],
+				"Name": { "content": "My Company" },
+				"DefinedTradeContact": [
+					{
+						"PersonName": { "content": "Max Mustermann" },
+						"EmailURIUniversalCommunication": { "URIID": { "content": "max@mustermann.com" } }
+					}
+				],
+				"PostalTradeAddress": {
+					"PostcodeCode": { "content": "12345" },
+					"LineOne": { "content": "Musterstraße 22" },
+					"CityName": { "content": "Musterstadt" },
+					"CountryID": { "content": "DE" }
+				},
+				"URIUniversalCommunication": [
+					{ "URIID": { "schemeID": "EM", "content": "max@mustermann.com" } }
+				],
+				"SpecifiedTaxRegistration": [
+					{ "ID": { "schemeID": "FC", "content": "DE329847235" } },
+					{ "ID": { "schemeID": "VA", "content": "DE234893244" } }
+				]
+			},
+			"BuyerTradeParty": {
+				"Name": { "content": "Peter Meyer" },
+				"PostalTradeAddress": {
+					"PostcodeCode": { "content": "56345" },
+					"LineOne": { "content": "Megastraße 2" },
+					"LineTwo": { "content": "Privatfirma XYZ" },
+					"CityName": { "content": "Tolle Stadt" },
+					"CountryID": { "content": "DE" }
+				}
+			}
+		},
+		"ApplicableHeaderTradeDelivery": {
+			"ActualDeliverySupplyChainEvent": {
+				"OccurrenceDateTime": { "DateTimeString": { "content": "20241211", "format": "102" } }
+			}
+		},
+		"ApplicableHeaderTradeSettlement": {
+			"PaymentReference": [{ "content": "R-2024-12-0042" }],
+			"InvoiceCurrencyCode": { "content": "EUR" },
+			"SpecifiedTradeSettlementPaymentMeans": [
+				{
+					"TypeCode": { "content": "1" },
+					"Information": [{ "content": "Überweisung" }],
+					"PayeePartyCreditorFinancialAccount": {
+						"IBANID": { "content": "DE54734985783459987" },
+						"AccountName": { "content": "Max Mustermann" }
+					},
+					"PayeeSpecifiedCreditorFinancialInstitution": { "BICID": { "content": "GEHN342857" } }
+				}
+			],
+			"ApplicableTradeTax": [
+				{
+					"CalculatedAmount": [{ "content": 285 }],
+					"TypeCode": { "content": "VAT" },
+					"BasisAmount": [{ "content": 1500 }],
+					"CategoryCode": { "content": "S" },
+					"RateApplicablePercent": { "content": 19 }
+				}
+			],
+			"BillingSpecifiedPeriod": {
+				"StartDateTime": { "DateTimeString": { "content": "20241107", "format": "102" } },
+				"EndDateTime": { "DateTimeString": { "content": "20241210", "format": "102" } }
+			},
+			"SpecifiedTradePaymentTerms": [
+				{
+					"Description": [
+						{
+							"content": "Bitte überweisen Sie den Gesamtbetrag innerhalb von 30 Tagen auf das unten angegebene Konto. #SKONTO#TAGE=30#PROZENT=0.00#"
+						}
+					],
+					"DueDateDateTime": { "DateTimeString": { "content": "20241220", "format": "102" } }
+				}
+			],
+			"SpecifiedTradeSettlementHeaderMonetarySummation": {
+				"LineTotalAmount": [{ "content": 1500 }],
+				"ChargeTotalAmount": [{ "content": 0 }],
+				"AllowanceTotalAmount": [{ "content": 0 }],
+				"TaxBasisTotalAmount": [{ "content": 1500 }],
+				"TaxTotalAmount": [{ "currencyID": "EUR", "content": 285 }],
+				"GrandTotalAmount": [{ "content": 1785 }],
+				"TotalPrepaidAmount": [{ "content": 0 }],
+				"DuePayableAmount": [{ "content": 1785 }]
+			}
+		}
+	}
+}
