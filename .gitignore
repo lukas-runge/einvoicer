@@ -134,3 +134,6 @@ dist
 
 # ignore local cache
 /cache
+
+# ignore demo invoices
+/demo-invoices
