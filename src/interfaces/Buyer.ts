@@ -1,6 +1,6 @@
 import { Address } from "./Address";
 
 export interface Buyer {
-    name: string;
-    address: Address;
+	name: string;
+	address: Address;
 }
