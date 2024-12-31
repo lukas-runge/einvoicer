@@ -1,3 +1,6 @@
+import { Buyer } from "./Buyer";
+import { Seller } from "./Seller";
+
 export interface Invoice {
 	documentNumber: string;
 	issueDate: Date;
