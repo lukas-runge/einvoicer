@@ -1,9 +1,9 @@
-export interface EInvoice {
+export interface Invoice {
 	documentNumber: string;
 	issueDate: Date;
 	buyer: Buyer;
 	seller: Seller;
-	type: EInvoiceType;
+	type: InvoiceType;
 
 	document: {
 		title: string;
@@ -12,7 +12,7 @@ export interface EInvoice {
 }
 
 // https://www.xrepository.de/details/urn:xoev-de:kosit:codeliste:untdid.1001_1
-enum EInvoiceType {
+enum InvoiceType {
 	COMMERCIAL_INVOICE = 380,
 	CREDIT_NOTE = 381
 }
