@@ -2,6 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { create } from "xmlbuilder2";
 import { Schema } from "node-schematron";
 import { CrossIndustryInvoiceType } from "./types/cii/uncefact/data/standard/CrossIndustryInvoice/100";
+import { PDFDocument } from "pdf-lib";
+import { embedXMLIntoPDF } from "./src/helpers/embed-xml";
 
 const invoice: CrossIndustryInvoiceType = JSON.parse(
 	readFileSync("types/cii/example.json", "utf8")
@@ -391,3 +393,18 @@ const schema = Schema.fromString(
 const result = schema.validateString(xmlContent, { debug: true });
 
 console.dir(result, { depth: 2 });
+
+(async () => {
+	if (result.length == 0) {
+		const title = invoice.ExchangedDocument.ID.content;
+		const author =
+			invoice.SupplyChainTradeTransaction.ApplicableHeaderTradeAgreement!.SellerTradeParty!
+				.DefinedTradeContact![0].PersonName!.content;
+
+		const emptyPDF = await PDFDocument.create();
+		emptyPDF.addPage().drawText(`Rechnung ${title}`, { x: 50, y: 750 });
+		const buffer = Buffer.from(await emptyPDF.save());
+
+		writeFileSync("build/target.pdf", await embedXMLIntoPDF(xmlContent, buffer, title, author));
+	}
+})();

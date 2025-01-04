@@ -137,3 +137,6 @@ dist
 
 # ignore demo invoices
 /demo-invoices
+
+# MacOS files
+.DS_Store
