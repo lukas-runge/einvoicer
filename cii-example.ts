@@ -458,7 +458,9 @@ function _formatDate(date) {
 		emptyPDF.context.trailerInfo.ID = emptyPDF.context.obj([id, id]);
 		// set document information
 		const title = invoice.ExchangedDocument.ID.content;
-		const author = "Max Mustermann";
+		const author =
+			invoice.SupplyChainTradeTransaction.ApplicableHeaderTradeAgreement!.SellerTradeParty!
+				.DefinedTradeContact![0].PersonName!.content;
 		const producer = "pdf-lib (https://github.com/Hopding/pdf-lib)";
 		const creator = "pdf-lib (https://github.com/Hopding/pdf-lib)";
 		const createDate = new Date();
