@@ -2,9 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { create } from "xmlbuilder2";
 import { Schema } from "node-schematron";
 import { CrossIndustryInvoiceType } from "./types/cii/uncefact/data/standard/CrossIndustryInvoice/100";
-import { PDFDocument, PDFHexString, PDFName } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 import { embedXMLIntoPDF } from "./src/helpers/embed-xml";
-import crypto from "crypto";
 
 const invoice: CrossIndustryInvoiceType = JSON.parse(
 	readFileSync("types/cii/example.json", "utf8")
@@ -395,88 +394,17 @@ const result = schema.validateString(xmlContent, { debug: true });
 
 console.dir(result, { depth: 2 });
 
-function _addMetadata(pdfDoc, date, documentId, title, author, producer, creator) {
-	const metadataXML = `
-    <?xpacket begin="" id="${documentId}"?>
-      <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.2-c001 63.139439, 2010/09/27-13:37:26        ">
-        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-
-          <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
-            <dc:format>application/pdf</dc:format>
-            <dc:creator>
-              <rdf:Seq>
-                <rdf:li>${author}</rdf:li>
-              </rdf:Seq>
-            </dc:creator>
-            <dc:title>
-               <rdf:Alt>
-                  <rdf:li xml:lang="x-default">${title}</rdf:li>
-               </rdf:Alt>
-            </dc:title>
-          </rdf:Description>
-
-          <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/">
-            <xmp:CreatorTool>${creator}</xmp:CreatorTool>
-            <xmp:CreateDate>${_formatDate(date)}</xmp:CreateDate>
-            <xmp:ModifyDate>${_formatDate(date)}</xmp:ModifyDate>
-            <xmp:MetadataDate>${_formatDate(date)}</xmp:MetadataDate>
-          </rdf:Description>
-
-          <rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/">
-            <pdf:Producer>${producer}</pdf:Producer>
-          </rdf:Description>
-
-          <rdf:Description rdf:about="" xmlns:pdfaid="http://www.aiim.org/pdfa/ns/id/">
-            <pdfaid:part>3</pdfaid:part>
-            <pdfaid:conformance>B</pdfaid:conformance>
-          </rdf:Description>
-        </rdf:RDF>
-      </x:xmpmeta>
-    <?xpacket end="w"?>
-    `.trim();
-
-	const metadataStream = pdfDoc.context.stream(metadataXML, {
-		Type: "Metadata",
-		Subtype: "XML",
-		Length: metadataXML.length
-	});
-	const metadataStreamRef = pdfDoc.context.register(metadataStream);
-	pdfDoc.catalog.set(PDFName.of("Metadata"), metadataStreamRef);
-}
-
-// remove millisecond from date
-function _formatDate(date) {
-	return date.toISOString().split(".")[0] + "Z";
-}
-
 (async () => {
 	if (result.length == 0) {
-		const emptyPDF = await PDFDocument.create();
-		emptyPDF.addPage().drawText("E-Rechnung", { x: 50, y: 750 });
-		const documentId = crypto.randomBytes(16).toString("hex");
-		const id = PDFHexString.of(documentId);
-		emptyPDF.context.trailerInfo.ID = emptyPDF.context.obj([id, id]);
-		// set document information
 		const title = invoice.ExchangedDocument.ID.content;
 		const author =
 			invoice.SupplyChainTradeTransaction.ApplicableHeaderTradeAgreement!.SellerTradeParty!
 				.DefinedTradeContact![0].PersonName!.content;
-		const producer = "pdf-lib (https://github.com/Hopding/pdf-lib)";
-		const creator = "pdf-lib (https://github.com/Hopding/pdf-lib)";
-		const createDate = new Date();
-		emptyPDF.setTitle(title);
-		emptyPDF.setAuthor(author);
-		emptyPDF.setProducer(producer);
-		emptyPDF.setCreator(creator);
-		emptyPDF.setCreationDate(createDate);
-		emptyPDF.setModificationDate(createDate);
-		_addMetadata(emptyPDF, createDate, documentId, title, author, producer, creator);
 
-		const buffer = Buffer.from(
-			await emptyPDF.save({
-				useObjectStreams: false
-			})
-		);
-		writeFileSync("build/target.pdf", await embedXMLIntoPDF(xmlContent, buffer));
+		const emptyPDF = await PDFDocument.create();
+		emptyPDF.addPage().drawText(`Rechnung ${title}`, { x: 50, y: 750 });
+		const buffer = Buffer.from(await emptyPDF.save());
+
+		writeFileSync("build/target.pdf", await embedXMLIntoPDF(xmlContent, buffer, title, author));
 	}
 })();
