@@ -457,7 +457,7 @@ function _formatDate(date) {
 		const id = PDFHexString.of(documentId);
 		emptyPDF.context.trailerInfo.ID = emptyPDF.context.obj([id, id]);
 		// set document information
-		const title = "E-Rechnung";
+		const title = invoice.ExchangedDocument.ID.content;
 		const author = "Max Mustermann";
 		const producer = "pdf-lib (https://github.com/Hopding/pdf-lib)";
 		const creator = "pdf-lib (https://github.com/Hopding/pdf-lib)";
